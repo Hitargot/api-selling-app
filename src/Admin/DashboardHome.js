@@ -9,8 +9,9 @@ function DashboardHome() {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-    //   const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
-const apiUrl = "http://localhost:5000";
+  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
+  //const apiUrl = "http://localhost:5000";
+  
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +21,7 @@ const apiUrl = "http://localhost:5000";
           fetch(`${apiUrl}/api/admin/purchases`).then((res) =>
             res.json()
           ),
-          fetch("http://localhost:5000/api/payments").then((res) => res.json()),
+          fetch(`${apiUrl}/api/payments`).then((res) => res.json()),
         ]);
 
         setServices(servicesRes);

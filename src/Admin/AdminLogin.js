@@ -9,7 +9,7 @@ function AdminLogin() {
   const [alert, setAlert] = useState({ message: "", type: "" });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com/";
+  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
 //const apiUrl = "http://localhost:5000";
 
   const handleChange = (e) => {
