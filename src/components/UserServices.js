@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaShoppingCart, FaShareAlt, FaHeart, FaCheck, FaSearch, FaHome } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // ✅ Import useNavigate for navigation
+import { useNavigate, useSearchParams } from "react-router-dom"; // ✅ Import useSearchParams
 import BuyModal from "./BuyModal";
 import "./UserServices.css";
 
@@ -14,6 +14,7 @@ function UserServices() {
   const [error, setError] = useState(null);
   const [copiedServiceId, setCopiedServiceId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
+  const [searchParams] = useSearchParams(); // ✅ Get URL search params
   const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
   //const apiUrl = "http://localhost:5000";
 
@@ -30,7 +31,7 @@ function UserServices() {
       .then((response) => {
         if (Array.isArray(response.data)) {
           setServices(response.data);
-          setFilteredServices(response.data); // ✅ Initialize filteredServices with all services
+          setFilteredServices(response.data);
         } else {
           console.error("❌ API did not return an array!", response.data);
           setError("Invalid data format from API");
@@ -44,6 +45,16 @@ function UserServices() {
       });
   }, [apiUrl]);
 
+  // ✅ Apply search query from URL
+  useEffect(() => {
+    const query = searchParams.get("search");
+    if (query && services.length > 0) {
+      setSearchTerm(query);
+      const filtered = services.filter(service => service._id.includes(query));
+      setFilteredServices(filtered);
+    }
+  }, [searchParams, services]);
+
   const toggleFavorite = (id) => {
     const updatedLikes = { ...likedServices, [id]: !likedServices[id] };
     setLikedServices(updatedLikes);
@@ -53,8 +64,8 @@ function UserServices() {
   const shareService = async (service) => {
     const shareData = {
       title: service.name,
-      text: `${service.name} - ${service.description}\nPrice: $${service.price}`,
-      url: `${window.location.origin}/service/${service._id}`,
+      text: `${service.name} - ${service.description}\nPrice: $${service.price}\nCheck it out here:`,
+      url: `${window.location.origin}/services?search=${service._id}`,
     };
 
     if (navigator.share) {

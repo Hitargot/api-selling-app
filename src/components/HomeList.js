@@ -54,24 +54,24 @@ function ApiList() {
 
   const shareService = async (service) => {
     const shareData = {
-      title: service.name,
-      text: `${service.name} - ${service.description}\nPrice: $${service.price}\nCheck it out here:`,
-      url: `${window.location.origin}/service/${service._id}`,
+        title: service.name,
+        text: `${service.name} - ${service.description}\nPrice: $${service.price}\nCheck it out here:`,
+        url: `${window.location.origin}/services?search=${service._id}`,
     };
 
     if (navigator.share) {
-      try {
-        await navigator.share(shareData);
-        console.log("✅ Service shared successfully");
-      } catch (error) {
-        console.error("❌ Share failed:", error);
-      }
+        try {
+            await navigator.share(shareData);
+            console.log("✅ Service shared successfully");
+        } catch (error) {
+            console.error("❌ Share failed:", error);
+        }
     } else {
-      navigator.clipboard.writeText(shareData.url);
-      setCopiedServiceId(service._id);
-      setTimeout(() => setCopiedServiceId(null), 2000);
+        navigator.clipboard.writeText(shareData.url);
+        setCopiedServiceId(service._id);
+        setTimeout(() => setCopiedServiceId(null), 2000);
     }
-  };
+};
 
   const handleBuyClick = (service) => {
     setSelectedService(service);
