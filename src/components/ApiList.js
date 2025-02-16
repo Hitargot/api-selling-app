@@ -28,7 +28,7 @@ function ApiList() {
   useEffect(() => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/api/services`)
+        .get(`${apiUrl}/api/services/services`)
         .then((response) => {
           console.log("📥 Fetched Services:", response.data);
           setServices(response.data);
