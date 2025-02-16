@@ -18,8 +18,8 @@ const BuyModal = ({ service, onClose }) => {
     const [paymentMethods, setPaymentMethods] = useState([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [countdown, setCountdown] = useState(30 * 60);
-      //   const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
-const apiUrl = "http://localhost:5000";
+    const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
+//const apiUrl = "http://localhost:5000";
 
     // Fetch payment methods from the backend
     useEffect(() => {
