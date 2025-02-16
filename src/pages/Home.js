@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../components/Header";
-import ApiList from "../components/ApiList";
+import ApiList from "../components/HomeList";
 import About from "../components/About";
 import Contact from "../components/Contact"; // Import Contact Component
 import Footer from "../components/Footer";
