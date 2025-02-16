@@ -14,8 +14,8 @@ function UserServices() {
   const [error, setError] = useState(null);
   const [copiedServiceId, setCopiedServiceId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
-    //   const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
-const apiUrl = "http://localhost:5000";
+  const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
+  //const apiUrl = "http://localhost:5000";
 
   const navigate = useNavigate(); // ✅ Hook for navigation
 
