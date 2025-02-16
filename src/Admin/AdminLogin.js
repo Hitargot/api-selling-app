@@ -20,23 +20,32 @@ function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     setAlert({ message: "", type: "" });
-
+  
     try {
       const res = await axios.post(`${apiUrl}/api/admin/login`, formData);
-      
-      // Store token and navigate to admin panel
-      localStorage.setItem("adminToken", res.data.token);
-      setAlert({ message: "Login successful!", type: "success" });
-
-      setTimeout(() => {
-        navigate("/admin");
-      }, 2000); // Navigate after delay
+  
+      // Check if the token is available
+      if (res.data.token) {
+        localStorage.setItem("adminToken", res.data.token);
+        setAlert({ message: "Login successful!", type: "success" });
+  
+        // Navigate to the admin panel after delay
+        setTimeout(() => {
+          navigate("/admin");
+        }, 2000);
+      } else {
+        setAlert({ message: "Token not found in response", type: "error" });
+      }
     } catch (err) {
-      setAlert({ message: err.response?.data.message || "Login failed", type: "error" });
+      setAlert({
+        message: err.response?.data.message || "Login failed",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="admin-login-container">
