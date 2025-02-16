@@ -7,8 +7,8 @@ function AdminSignup() {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-    //   const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
-const apiUrl = "http://localhost:5000";
+  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
+//const apiUrl = "http://localhost:5000";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
