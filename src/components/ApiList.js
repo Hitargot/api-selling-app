@@ -14,8 +14,8 @@ function ApiList() {
   const [copiedServiceId, setCopiedServiceId] = useState(null); // ✅ To show checkmark on copied links
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState(null);
-  //   const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
-const apiUrl = "http://localhost:5000";
+  const apiUrl = "https://api-selling-site-f28433b94c77.herokuapp.com";
+//const apiUrl = "http://localhost:5000";
 
 
   // ✅ Load liked services from local storage on mount

@@ -7,8 +7,9 @@ function AdminForgotPassword() {
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState({ message: "", type: "" });
   const [loading, setLoading] = useState(false);
-//   const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
-const apiUrl = "http://localhost:5000";
+const apiUrl = "https://api-selling-app-95e637847b06.herokuapp.com";
+//const apiUrl = "http://localhost:5000";
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
