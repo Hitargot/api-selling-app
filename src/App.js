@@ -11,6 +11,7 @@ import DashboardHome from "./Admin/DashboardHome";
 import AdminService from "./Admin/AdminService";
 import AdminPayments from "./Admin/AdminPayments";
 import AdminPurchase from "./Admin/AdminPurchase";
+import ServiceDetails from "./components/ServiceDetails";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/admin/forgot-password" element={<AdminForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
         <Route path="/services" element={<UserServices />} />
+        <Route path="/service/:id" element={<ServiceDetails />} />
        {/* ✅ Protect all admin routes */}
        <Route path="/admin" element={<ProtectedRoute />}>
         {/* ✅ Wrap all admin routes inside AdminDashboard */}
