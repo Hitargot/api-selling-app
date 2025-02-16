@@ -76,87 +76,86 @@ function ApiList() {
   const handleBuyClick = (service) => {
     setSelectedService(service);
   };
-
   return (
     <section id="api-list">
-      <div className="api-card-container">
-        <h2>Popular APIs</h2>
+      <div className="api-card-container" >
+      <h2>Popular APIs</h2>
 
-        {loading ? (
-          <div className="loading-container">
-            <div className="spinner"></div>
-            <p>Loading services...</p>
-          </div>
-        ) : error ? (
-          <p className="error-message">{error}</p>
-        ) : (
-          <>
-            <div className="service-grid">
-              {randomServices.map((service) => (
-                <div key={service._id} className="api-card">
-                  <h3>{service.name}</h3>
-                  <div className="rating">
-                    ⭐ {service.averageRating?.toFixed(1) || "0.0"}
-                    <span>({service.totalReviews || 0} reviews)</span>
-                  </div>
-                  <p className="description">{service.description}</p>
-                  <p><strong>Price:</strong> ${service.price}</p>
-
-                  <div className="btn-group">
-                    <button
-                      className="share-btn"
-                      onClick={() => shareService(service)}
-                      aria-label="Share Service"
-                    >
-                      {copiedServiceId === service._id ? (
-                        <>
-                          <FaCheck style={{ color: "green" }} /> Copied!
-                        </>
-                      ) : (
-                        <>
-                          <FaShareAlt /> Share
-                        </>
-                      )}
-                    </button>
-
-                    <button className="buy-btn" onClick={() => handleBuyClick(service)}>
-                      <FaShoppingCart /> Buy
-                    </button>
-                  </div>
-
-                  <FaHeart
-                    className="favorite-icon"
-                    onClick={() => toggleFavorite(service._id)}
-                    style={{
-                      cursor: "pointer",
-                      color: likedServices[service._id] ? "red" : "gray",
-                      fontSize: "1.5rem",
-                      marginTop: "10px",
-                    }}
-                    aria-label="Toggle Favorite"
-                  />
+      {loading ? (
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Loading services...</p>
+        </div>
+      ) : error ? (
+        <p className="error-message">{error}</p>
+      ) : (
+        <>
+          <div className="service-grid">
+            {randomServices.map((service) => (
+              <div key={service._id} className="api-card">
+                <h3>{service.name}</h3>
+                <div className="rating">
+                  ⭐ {service.averageRating?.toFixed(1) || "0.0"}
+                  <span>({service.totalReviews || 0} reviews)</span>
                 </div>
-              ))}
-            </div>
+                <p className="description">{service.description}</p>
+                <p><strong>Price:</strong> ${service.price}</p>
 
-            <div className="see-more-container">
-              <button className="see-more-btn" onClick={() => navigate("/services")}>
-                See More <FaArrowRight />
-              </button>
-            </div>
-          </>
-        )}
+                <div className="btn-group">
+                  {/* ✅ Share Button */}
+                  <button className="share-btn" onClick={() => shareService(service)}>
+                    {copiedServiceId === service._id ? (
+                      <>
+                        <FaCheck style={{ color: "green" }} /> Copied!
+                      </>
+                    ) : (
+                      <>
+                        <FaShareAlt /> Share
+                      </>
+                    )}
+                  </button>
 
-        {selectedService && (
-          <BuyModal
-            service={selectedService}
-            isOpen={!!selectedService}
-            onClose={() => setSelectedService(null)}
-            onConfirm={() => setSelectedService(null)} 
-          />
-        )}
-      </div>
+                  {/* ✅ Buy Button (Modal will be added next) */}
+                  <button className="buy-btn" onClick={() => handleBuyClick(service)}>
+                  <FaShoppingCart /> Buy
+                </button>
+              
+                </div>
+
+                {/* Favorite (Like) Icon */}
+                <FaHeart
+                  className="favorite-icon"
+                  onClick={() => toggleFavorite(service._id)}
+                  style={{
+                    cursor: "pointer",
+                    color: likedServices[service._id] ? "red" : "gray",
+                    fontSize: "1.5rem",
+                    marginTop: "10px",
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="see-more-container">
+            <button className="see-more-btn" onClick={() => navigate("/services")}>
+              See More <FaArrowRight />
+            </button>
+          </div>
+        </>
+      )}
+      {/* ✅ Buy Modal */}
+      {selectedService && (
+        <BuyModal
+          service={selectedService}
+          isOpen={!!selectedService}
+          onClose={() => setSelectedService(null)}
+          onConfirm={handleConfirmPurchase}
+        />
+      )}
+    </div>
     </section>
+    
   );
 }
 
