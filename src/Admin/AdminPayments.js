@@ -40,7 +40,7 @@ const AdminPayments = () => {
 
     try {
       if (editMode) {
-        await axios.put(`${apiUrl}api/payments/${editId}`, formData, {
+        await axios.put(`${apiUrl}/api/payments/${editId}`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         setAlert({ message: "Payment method updated successfully", type: "success" });
