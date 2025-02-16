@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaShoppingCart, FaShareAlt, FaArrowRight, FaHeart, FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import "./ApiList.css";
+import "./HomeList.css";
 import BuyModal from "./BuyModal"; // ✅ Import BuyModal
 
 function ApiList() {
