@@ -241,7 +241,7 @@ const BuyModal = ({ service, onClose }) => {
                                 {selectedPaymentMethod.qrCode && (
                                     <div className="qr-code-section">
                                         <img
-                                            src={`http://localhost:5000${selectedPaymentMethod.qrCode}`}
+                                            src={`https://new-app-site-a384f2c56775.herokuapp.com${selectedPaymentMethod.qrCode}`}
                                             alt="QR Code"
                                             className="qr-code-img"
                                         />

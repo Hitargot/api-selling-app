@@ -15,7 +15,7 @@ function ApiList() {
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState(null);
   const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-//const apiUrl = "http://localhost:5000";
+  //const apiUrl = "http://localhost:5000";
 
 
   // ✅ Load liked services from local storage on mount
@@ -27,10 +27,15 @@ function ApiList() {
   // ✅ Fetch services after 5 seconds (Simulating Loading)
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/services/services`, { withCredentials: true })
+      .get(`${apiUrl}/api/services/services`)
       .then((response) => {
-        console.log("📥 Fetched Services:", response.data);
-        setServices(response.data);
+        if (Array.isArray(response.data)) {
+          setServices(response.data);
+          setFilteredServices(response.data); // ✅ Initialize filteredServices with all services
+        } else {
+          console.error("❌ API did not return an array!", response.data);
+          setError("Invalid data format from API");
+        }
         setLoading(false);
       })
       .catch((error) => {
