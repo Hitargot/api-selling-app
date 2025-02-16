@@ -9,6 +9,16 @@ function Header() {
     setIsOpen(!isOpen);
   };
 
+  document.addEventListener("DOMContentLoaded", function () {
+    const menuToggle = document.querySelector(".menu-toggle");
+    const navMenu = document.querySelector(".nav");
+  
+    menuToggle.addEventListener("click", function () {
+      navMenu.classList.toggle("open");
+    });
+  });
+  
+
   return (
     <header className="header">
       <h1>
