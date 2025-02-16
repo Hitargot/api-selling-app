@@ -21,7 +21,7 @@ const apiUrl = "http://localhost:5000";
 
   const fetchPayments = async () => {
     try {
-      const res = await axios.get(`${apiUrl}/api/payments`);
+      const res = await axios.get(`${apiUrl}/api/payments/payment`);
       setPayments(res.data);
     } catch (error) {
       setAlert({ message: "Error fetching payments", type: "error" });

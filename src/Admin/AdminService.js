@@ -23,7 +23,7 @@ function AdminService() {
 
   const fetchServices = useCallback(async () => {
     try {
-      const res = await axios.get(`${apiUrl}/api/services`);
+      const res = await axios.get(`${apiUrl}/api/services/services`);
       setServices(res.data);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -59,7 +59,7 @@ function AdminService() {
         });
         showAlert("Service updated successfully", "success");
       } else {
-        await axios.post(`${apiUrl}/api/services`, formData, {
+        await axios.post(`${apiUrl}/api/services/create`, formData, {
           headers: { Authorization: `Bearer ${token}` },
         });
         showAlert("Service created successfully", "success");
