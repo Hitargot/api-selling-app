@@ -1,0 +1,237 @@
+/* ✅ General Styles */
+.service-list, .api-card-container .service-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* ✅ In ApiList: Display services in a single row */
+.api-card-container .service-grid {
+  flex-wrap: nowrap; /* Forces services to stay in a single row */
+  overflow-x: auto; /* Allows horizontal scrolling */
+  padding-bottom: 10px; /* Extra space for scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: #ccc transparent;
+}
+
+/* ✅ In UserServices: 4 services per row */
+.user-service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+/* ✅ Individual Card Styling */
+.service-card, .api-card {
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out;
+  width: 280px;
+  text-align: left;
+}
+
+.service-card:hover, .api-card:hover {
+  transform: translateY(-5px);
+}
+
+/* ✅ Service Heading */
+.service-card h3, .api-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.service-card p, .api-card p {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* ✅ Rating */
+.rating {
+  font-weight: bold;
+  margin: 10px 0;
+}
+
+/* ✅ Buttons */
+.btn-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.buy-btn {
+  border: none;
+  padding: 10px 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: background 0.3s;
+}
+
+/* ✅ Share Button */
+.share-btn {
+  background: #3498db;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.3s ease;
+}
+
+.share-btn:hover {
+  background: #0056b3;
+}
+
+.buy-btn {
+  background: #28a745;
+  color: white;
+}
+
+.buy-btn:hover {
+  background: #218838;
+}
+
+/* ✅ Favorite (Like) Icon */
+.favorite-icon {
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+.favorite-icon:hover {
+  color: red;
+}
+
+/* ✅ "See More" Button */
+.see-more-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.see-more-btn {
+  background: #ff9800;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 1rem;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.see-more-btn:hover {
+  background: #e68900;
+}
+
+/* ✅ Center "Popular Services" */
+.api-card-container {
+  text-align: center; /* Centers the heading */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.api-card-container h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* ✅ Adjust container width for better alignment */
+.api-card-container,
+.user-service-container {
+  width: 90%;
+  max-width: 1300px;
+  margin: auto;
+}
+
+/* ✅ Loading Container */
+.loading-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* ✅ Error Message */
+.error-message {
+  color: red;
+  text-align: center;
+  font-size: 1.2rem;
+  margin-top: 20px;
+}
+
+/* 🌍 RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+  .user-service-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .service-card, .api-card {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .api-card-container .service-grid {
+    flex-wrap: wrap; /* Allows wrapping on smaller screens */
+    overflow-x: unset; /* Removes horizontal scroll */
+  }
+
+  .service-card, .api-card {
+    width: 90%;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .see-more-btn {
+    padding: 12px 16px;
+    font-size: 0.9rem;
+  }
+
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .service-card, .api-card {
+    width: 100%;
+  }
+
+  .btn-group {
+    flex-direction: column;
+  }
+
+  .share-btn,
+  .buy-btn {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}

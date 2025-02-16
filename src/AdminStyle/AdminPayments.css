@@ -1,0 +1,111 @@
+.payment-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 10px;
+  }
+  
+  .payment-card {
+    background: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 250px;
+    margin: auto;
+  }
+  
+  .payment-card h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+  
+  .payment-card p {
+    font-size: 14px;
+    color: #666;
+    word-break: break-word;
+  }
+  
+  .payment-card img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+    border-radius: 5px;
+    margin-bottom: 8px;
+  }
+  
+  .payment-card .buttons {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  
+  .payment-card .edit-btn,
+  .payment-card .delete-btn {
+    padding: 5px 10px;
+    font-size: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .payment-card .edit-btn {
+    background: #28a745;
+    color: white;
+  }
+  
+  .payment-card .edit-btn:hover {
+    background: #218838;
+  }
+  
+  .payment-card .delete-btn {
+    background: #dc3545;
+    color: white;
+  }
+  
+  .payment-card .delete-btn:hover {
+    background: #b02a37;
+  }
+  
+  /* Mobile Responsiveness */
+  @media (max-width: 768px) {
+    .payment-list {
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+    }
+  
+    .payment-card {
+      max-width: 180px;
+      padding: 10px;
+    }
+  
+    .payment-card h4 {
+      font-size: 14px;
+    }
+  
+    .payment-card p {
+      font-size: 12px;
+    }
+  
+    .payment-card img {
+      width: 50px;
+      height: 50px;
+    }
+  
+    .payment-card .buttons {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .payment-card .edit-btn,
+    .payment-card .delete-btn {
+      font-size: 11px;
+      padding: 4px 8px;
+    }
+  }
+  

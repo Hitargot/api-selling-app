@@ -1,0 +1,271 @@
+/* Modal overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  /* Modal content */
+  .modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+  
+  /* Close button */
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #333;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .close-btn:hover {
+    color: #ff4d4d;
+  }
+  
+  /* Alert message */
+  .alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+  }
+  
+  .alert.success {
+    background-color: #d4edda;
+    color: #155724;
+  }
+  
+  .alert.error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+  
+  /* Form input fields */
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  input[type="file"] {
+    padding: 5px;
+  }
+  
+  /* Button styles */
+  button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  .confirm-btn {
+    width: 100%;
+    margin: 10px 0;
+  }
+  
+  /* Payment method select */
+  select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  /* Crypto details section */
+  .crypto-details {
+    margin-top: 20px;
+  }
+  
+  .crypto-details p {
+    margin: 5px 0;
+  }
+  
+  .crypto-details img {
+    margin: 10px 0;
+  }
+  
+  /* Copy address button */
+  .copy-btn {
+    background-color: #28a745;
+    display: flex;
+    align-items: center;
+    padding: 8px 15px;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .copy-btn:disabled {
+    background-color: #ccc;
+  }
+  
+  .copy-btn svg {
+    margin-right: 5px;
+  }
+  
+  /* Timer */
+  .crypto-details p strong {
+    display: inline-block;
+    margin-right: 10px;
+  }
+  
+  /* Styling for the section title */
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Styling for the payment method selection */
+.payment-select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+.payment-select:disabled {
+    background-color: #eaeaea;
+}
+
+/* Allow scrolling in the crypto details section if the content is too long */
+.crypto-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    max-height: 300px;  /* Set a max height for scrolling */
+    overflow-y: auto;   /* Enable vertical scrolling if content exceeds max height */
+}
+
+
+/* Style for the cryptocurrency details */
+.crypto-details p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.crypto-details strong {
+    font-weight: bold;
+}
+
+/* QR code section */
+.qr-code-section {
+    text-align: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* QR code image styling */
+.qr-code-img {
+    width: 250px;  /* Larger QR code size */
+    height: auto;
+    margin: 10px 0;
+    border-radius: 8px;  /* Optional rounded corners */
+}
+
+/* QR code text */
+.qr-text {
+    font-size: 14px;
+    color: #888;
+    margin: 5px 0;
+}
+
+/* Button for copying the address */
+.copy-btn {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 16px;
+    display: inline-block;
+}
+
+.copy-btn:disabled {
+    background-color: #a5d6a7;
+    cursor: not-allowed;
+}
+
+/* Confirm payment button styling */
+.confirm-btn {
+    width: 100%;
+    padding: 12px;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.confirm-btn:disabled {
+    background-color: #9fa8da;
+}
+
+/* Close button styling */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.close-btn:hover {
+    color: red;
+}

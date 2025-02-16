@@ -1,0 +1,88 @@
+/* About Section */
+#about {
+  text-align: center;
+  padding: 40px 20px;
+  background-color: #f8f9fa;
+}
+
+.about-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+/* Features Grid (Inline Layout) */
+.about-features {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+/* Feature Card */
+.feature-card {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 30%; /* Inline layout on large screens */
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.feature-card:hover {
+  transform: scale(1.05);
+}
+
+.feature-icon {
+  font-size: 40px;
+  color: #007bff;
+  margin-bottom: 10px;
+}
+
+/* 🌍 Responsive Design */
+@media (max-width: 992px) {
+  .about-features {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .feature-card {
+    width: 45%; /* Slightly wider for tablets */
+  }
+}
+
+@media (max-width: 768px) {
+  .about-features {
+    flex-direction: column; /* Stack cards on mobile */
+    align-items: center;
+  }
+
+  .feature-card {
+    width: 80%; /* Make cards bigger on mobile */
+  }
+
+  h2 {
+    font-size: 1.8rem; /* Slightly smaller heading */
+  }
+
+  p {
+    font-size: 1rem; /* Reduce paragraph font size */
+  }
+}
+
+@media (max-width: 480px) {
+  .feature-card {
+    width: 95%; /* Full width on very small screens */
+  }
+}
