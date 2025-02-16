@@ -12,6 +12,8 @@ import AdminService from "./Admin/AdminService";
 import AdminPayments from "./Admin/AdminPayments";
 import AdminPurchase from "./Admin/AdminPurchase";
 import ServiceDetails from "./components/ServiceDetails";
+import ServiceAPIManager from "./Admin/ServiceAPIManager";
+
 
 function App() {
   return (
@@ -32,6 +34,7 @@ function App() {
           <Route path="services" element={<AdminService />} />
           <Route path="payment" element={<AdminPayments />} />
           <Route path="purchase" element={<AdminPurchase />} />
+          <Route path="services-api" element={<ServiceAPIManager  />} />
         </Route>
       </Route>
       </Routes>

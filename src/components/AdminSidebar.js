@@ -36,6 +36,11 @@ function AdminSidebar() {
               <FaShoppingCart className="icon" /> {isExpanded && "Purchase"}
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/admin/services-api">
+              <FaShoppingCart className="icon" /> {isExpanded && "Services API"}
+            </NavLink>
+          </li>
         </ul>
       </nav>
     </div>
