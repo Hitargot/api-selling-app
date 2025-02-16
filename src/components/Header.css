@@ -63,7 +63,7 @@ nav a:hover {
   .nav {
     position: absolute;
     top: 60px;
-    right: 0;
+    right: 90px;
     background-color: #222;
     flex-direction: column;
     width: 200px;
