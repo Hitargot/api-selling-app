@@ -14,7 +14,7 @@ function ApiList() {
   const [copiedServiceId, setCopiedServiceId] = useState(null); // ✅ To show checkmark on copied links
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState(null);
-  const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
+  // const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
 //const apiUrl = "http://localhost:5000";
 
 
@@ -28,7 +28,7 @@ function ApiList() {
   useEffect(() => {
     setTimeout(() => {
       axios
-        .get(`${apiUrl}/api/services/services`)
+        .get("https://new-api-site-ae743e986d23.herokuapp.com/api/services")
         .then((response) => {
           console.log("📥 Fetched Services:", response.data);
           setServices(response.data);
@@ -40,7 +40,7 @@ function ApiList() {
           setLoading(false);
         });
     }, 5000);
-  }, [apiUrl]);
+  }, []);
 
   // ✅ Get 3 random services
   const getRandomServices = (servicesArray) => {
