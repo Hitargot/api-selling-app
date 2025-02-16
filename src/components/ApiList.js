@@ -26,21 +26,20 @@ function ApiList() {
 
   // ✅ Fetch services after 5 seconds (Simulating Loading)
   useEffect(() => {
-    setTimeout(() => {
-      axios
-        .get(`${apiUrl}/api/services`)
-        .then((response) => {
-          console.log("📥 Fetched Services:", response.data);
-          setServices(response.data);
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("❌ Error fetching services:", error);
-          setError("Failed to load services");
-          setLoading(false);
-        });
-    }, 5000);
-  }, []);
+    axios
+      .get(`${apiUrl}/api/services`, { withCredentials: true })
+      .then((response) => {
+        console.log("📥 Fetched Services:", response.data);
+        setServices(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("❌ Error fetching services:", error);
+        setError("Failed to load services");
+        setLoading(false);
+      });
+  }, [apiUrl]);
+  
 
   // ✅ Get 3 random services
   const getRandomServices = (servicesArray) => {
