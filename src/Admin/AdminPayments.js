@@ -104,7 +104,7 @@ const AdminPayments = () => {
           <div className="payment-card" key={p._id}>
             <h4>{p.name}</h4>
             <p>{p.address}</p>
-            {p.qrCode && <img src={`https://new-app-site-a384f2c56775.herokuapp.com${p.qrCode}`} alt="QR Code" width="80" />}
+            {p.qrCode && <img src={`${apiUrl}${p.qrCode}`} alt="QR Code" width="80" />}
             <div className="buttons">
               <button className="edit-btn" onClick={() => handleEdit(p)}>Edit</button>
               <button className="delete-btn" onClick={() => handleDelete(p._id)}>Delete</button>
