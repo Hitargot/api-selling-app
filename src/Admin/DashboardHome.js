@@ -17,11 +17,11 @@ function DashboardHome() {
     const fetchData = async () => {
       try {
         const [servicesRes, purchasesRes, paymentsRes] = await Promise.all([
-          fetch(`${apiUrl}/api/services`).then((res) => res.json()),
+          fetch(`${apiUrl}/api/services/services`).then((res) => res.json()),
           fetch(`${apiUrl}/api/admin/purchases`).then((res) =>
             res.json()
           ),
-          fetch(`${apiUrl}/api/payments`).then((res) => res.json()),
+          fetch(`${apiUrl}/api/payments/payment`).then((res) => res.json()),
         ]);
 
         setServices(servicesRes);

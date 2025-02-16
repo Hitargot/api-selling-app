@@ -14,7 +14,7 @@ function ApiList() {
   const [copiedServiceId, setCopiedServiceId] = useState(null); // ✅ To show checkmark on copied links
   const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState(null);
-  const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
+  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
 //const apiUrl = "http://localhost:5000";
 
 
@@ -27,7 +27,7 @@ function ApiList() {
   // ✅ Fetch services after 5 seconds (Simulating Loading)
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/services`, { withCredentials: true })
+      .get(`${apiUrl}/api/services/services`, { withCredentials: true })
       .then((response) => {
         console.log("📥 Fetched Services:", response.data);
         setServices(response.data);

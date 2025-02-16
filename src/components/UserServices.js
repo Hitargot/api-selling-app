@@ -14,7 +14,7 @@ function UserServices() {
   const [error, setError] = useState(null);
   const [copiedServiceId, setCopiedServiceId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
-  const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
+  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
   //const apiUrl = "http://localhost:5000";
 
   const navigate = useNavigate(); // ✅ Hook for navigation
@@ -26,7 +26,7 @@ function UserServices() {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/services`)
+      .get(`${apiUrl}/api/services/services`)
       .then((response) => {
         if (Array.isArray(response.data)) {
           setServices(response.data);

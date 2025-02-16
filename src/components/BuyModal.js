@@ -18,13 +18,13 @@ const BuyModal = ({ service, onClose }) => {
     const [paymentMethods, setPaymentMethods] = useState([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [countdown, setCountdown] = useState(30 * 60);
-    const apiUrl = "https://new-api-site-ae743e986d23.herokuapp.com";
+    const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
 //const apiUrl = "http://localhost:5000";
 
     // Fetch payment methods from the backend
     useEffect(() => {
         axios
-            .get(`${apiUrl}/api/payments`)
+            .get(`${apiUrl}/api/payments/payment`)
             .then((response) => setPaymentMethods(response.data))
             .catch((error) => console.error("Error fetching payment methods:", error));
     }, [apiUrl]);
