@@ -6,13 +6,12 @@ const ServiceAPIManager = () => {
   const [apiList, setApiList] = useState([]);
   const [selectedService, setSelectedService] = useState("");
   const [apiKey, setApiKey] = useState("");
-  const [editingId, setEditingId] = useState(null); // Track if an API is being edited
+  const [editingId, setEditingId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
   const API_BASE_URL = "https://new-app-site-a384f2c56775.herokuapp.com/api/service-api";
 
-  // Fetch available services for dropdown
   useEffect(() => {
     const fetchServices = async () => {
       try {
@@ -24,10 +23,9 @@ const ServiceAPIManager = () => {
     };
 
     fetchServices();
-    fetchAPIList(); // Fetch existing API list
+    fetchAPIList();
   }, []);
 
-  // Fetch all stored API keys
   const fetchAPIList = async () => {
     try {
       const response = await axios.get(`${API_BASE_URL}/fetch-api-list`);
@@ -37,7 +35,6 @@ const ServiceAPIManager = () => {
     }
   };
 
-  // Add or Update API Key
   const addOrUpdateAPIKey = async () => {
     if (!selectedService || !apiKey) {
       setMessage("Please select a service and enter an API key.");
@@ -54,10 +51,10 @@ const ServiceAPIManager = () => {
       });
 
       setMessage(response.data.message);
-      fetchAPIList(); // Refresh the API list
-      setSelectedService(""); // Clear selected service
-      setApiKey(""); // Clear input field
-      setEditingId(null); // Reset editing state
+      fetchAPIList();
+      setSelectedService("");
+      setApiKey("");
+      setEditingId(null);
     } catch (error) {
       setMessage(error.response?.data?.error || "Error updating API Key.");
     } finally {
@@ -65,7 +62,6 @@ const ServiceAPIManager = () => {
     }
   };
 
-  // Delete API Key
   const deleteAPIKey = async (serviceId) => {
     setLoading(true);
     setMessage("");
@@ -73,7 +69,7 @@ const ServiceAPIManager = () => {
     try {
       const response = await axios.delete(`${API_BASE_URL}/delete/${serviceId}`);
       setMessage(response.data.message);
-      fetchAPIList(); // Refresh the API list
+      fetchAPIList();
     } catch (error) {
       setMessage(error.response?.data?.error || "Error deleting API Key.");
     } finally {
@@ -81,18 +77,17 @@ const ServiceAPIManager = () => {
     }
   };
 
-  // Edit API Key - Pre-fill input fields
   const editAPIKey = (serviceId, existingApiKey) => {
     setSelectedService(serviceId);
     setApiKey(existingApiKey);
-    setEditingId(serviceId); // Track which service is being edited
+    setEditingId(serviceId);
   };
 
   return (
-    <div className="max-w-lg mx-auto p-6 bg-white shadow-md rounded-lg">
-      <h2 className="text-2xl font-bold mb-4">Service API Manager</h2>
+    <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg w-full sm:w-4/5 md:w-3/4 lg:w-1/2 xl:w-1/3">
+      <h2 className="text-2xl font-bold mb-4 text-center">Service API Manager</h2>
 
-      {message && <p className="mb-4 text-center text-blue-600">{message}</p>}
+      {message && <p className="mb-4 text-center text-blue-600 text-sm">{message}</p>}
 
       <label className="block mb-2 font-semibold">Select Service:</label>
       <select
@@ -118,7 +113,7 @@ const ServiceAPIManager = () => {
       />
 
       <button
-        className={`w-full text-white px-4 py-2 rounded ${
+        className={`w-full min-w-full text-white px-4 py-2 rounded transition duration-200 ${
           editingId ? "bg-blue-600 hover:bg-blue-700" : "bg-green-600 hover:bg-green-700"
         }`}
         onClick={addOrUpdateAPIKey}
@@ -130,20 +125,23 @@ const ServiceAPIManager = () => {
       <h3 className="text-lg font-bold mt-6">Stored APIs:</h3>
       <ul className="mt-4">
         {apiList.length === 0 ? (
-          <p>No APIs added yet.</p>
+          <p className="text-sm text-gray-600 text-center">No APIs added yet.</p>
         ) : (
           apiList.map((api) => (
-            <li key={api._id} className="p-3 border rounded mt-2 flex justify-between items-center">
-              <span>{api.service.name} - {api.apiKey}</span>
-              <div>
+            <li
+              key={api._id}
+              className="p-3 border rounded mt-2 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center"
+            >
+              <span className="text-sm break-all">{api.service.name} - {api.apiKey}</span>
+              <div className="mt-2 sm:mt-0 flex gap-2">
                 <button
-                  className="text-blue-600 mr-4"
+                  className="text-blue-600 text-sm"
                   onClick={() => editAPIKey(api.service._id, api.apiKey)}
                 >
                   Edit
                 </button>
                 <button
-                  className="text-red-600"
+                  className="text-red-600 text-sm"
                   onClick={() => deleteAPIKey(api.service._id)}
                   disabled={loading}
                 >
