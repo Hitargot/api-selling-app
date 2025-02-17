@@ -6,6 +6,7 @@ const ServiceAPIManager = () => {
   const [apiList, setApiList] = useState([]);
   const [selectedService, setSelectedService] = useState("");
   const [apiKey, setApiKey] = useState("");
+  const [editingId, setEditingId] = useState(null); // Track if an API is being edited
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
@@ -51,8 +52,12 @@ const ServiceAPIManager = () => {
         serviceId: selectedService,
         apiKey,
       });
+
       setMessage(response.data.message);
       fetchAPIList(); // Refresh the API list
+      setSelectedService(""); // Clear selected service
+      setApiKey(""); // Clear input field
+      setEditingId(null); // Reset editing state
     } catch (error) {
       setMessage(error.response?.data?.error || "Error updating API Key.");
     } finally {
@@ -74,6 +79,13 @@ const ServiceAPIManager = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Edit API Key - Pre-fill input fields
+  const editAPIKey = (serviceId, existingApiKey) => {
+    setSelectedService(serviceId);
+    setApiKey(existingApiKey);
+    setEditingId(serviceId); // Track which service is being edited
   };
 
   return (
@@ -106,11 +118,13 @@ const ServiceAPIManager = () => {
       />
 
       <button
-        className="w-full bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        className={`w-full text-white px-4 py-2 rounded ${
+          editingId ? "bg-blue-600 hover:bg-blue-700" : "bg-green-600 hover:bg-green-700"
+        }`}
         onClick={addOrUpdateAPIKey}
         disabled={loading}
       >
-        {loading ? "Saving..." : "Save API Key"}
+        {loading ? "Saving..." : editingId ? "Update API Key" : "Save API Key"}
       </button>
 
       <h3 className="text-lg font-bold mt-6">Stored APIs:</h3>
@@ -119,15 +133,23 @@ const ServiceAPIManager = () => {
           <p>No APIs added yet.</p>
         ) : (
           apiList.map((api) => (
-            <li key={api._id} className="p-3 border rounded mt-2 flex justify-between">
+            <li key={api._id} className="p-3 border rounded mt-2 flex justify-between items-center">
               <span>{api.service.name} - {api.apiKey}</span>
-              <button
-                className="text-red-600"
-                onClick={() => deleteAPIKey(api.service._id)}
-                disabled={loading}
-              >
-                Delete
-              </button>
+              <div>
+                <button
+                  className="text-blue-600 mr-4"
+                  onClick={() => editAPIKey(api.service._id, api.apiKey)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="text-red-600"
+                  onClick={() => deleteAPIKey(api.service._id)}
+                  disabled={loading}
+                >
+                  Delete
+                </button>
+              </div>
             </li>
           ))
         )}
