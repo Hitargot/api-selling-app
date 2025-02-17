@@ -15,8 +15,6 @@ function UserServices() {
   const [copiedServiceId, setCopiedServiceId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [searchParams] = useSearchParams(); // ✅ Get URL search params
-  const [rating, setRating] = useState(null);
-  const [reviews, setReviews] = useState(null);
   const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
   //const apiUrl = "http://localhost:5000";
 
@@ -104,31 +102,27 @@ function UserServices() {
     setFilteredServices(filtered);
   };
 
-
-
-  useEffect(() => {
-    // Check if the values are already in localStorage for this service
+  // ✅ Generate unique ratings and reviews for each service
+  const getServiceRatingAndReviews = (serviceId) => {
     const storedRating = localStorage.getItem(`serviceRating_${serviceId}`);
     const storedReviews = localStorage.getItem(`serviceReviews_${serviceId}`);
 
     if (storedRating && storedReviews) {
-      // If values exist in localStorage, use them
-      setRating(parseFloat(storedRating));
-      setReviews(parseInt(storedReviews));
+      return {
+        rating: parseFloat(storedRating),
+        reviews: parseInt(storedReviews),
+      };
     } else {
-      // If no values are stored, generate new ones and store them
       const generatedRating = (4.2 + Math.random() * (5 - 4.2)).toFixed(1);
       const generatedReviews = Math.floor(Math.random() * (14 - 4 + 1)) + 4;
 
-      setRating(generatedRating);
-      setReviews(generatedReviews);
-
-      // Store the generated values in localStorage with unique serviceId
+      // Store in localStorage with unique serviceId
       localStorage.setItem(`serviceRating_${serviceId}`, generatedRating);
       localStorage.setItem(`serviceReviews_${serviceId}`, generatedReviews);
-    }
-  }, [serviceId]); // Dependency array now listens for changes to serviceId
 
+      return { rating: generatedRating, reviews: generatedReviews };
+    }
+  };
 
   return (
     <div>
@@ -158,31 +152,35 @@ function UserServices() {
         <p>{error}</p>
       ) : filteredServices.length > 0 ? (
         <div className="service-list">
-          {filteredServices.map((service) => (
-            <div key={service._id} className="service-card">
-              <h3>{service.name}</h3>
-              <p>{service.description}</p>
-              <p><strong>Price:</strong> ${service.price}</p>
-              <p>
-                ⭐ {rating} ({reviews} reviews)
-              </p>
+          {filteredServices.map((service) => {
+            const { rating, reviews } = getServiceRatingAndReviews(service._id); // Fetch rating and reviews dynamically
 
-              <div className="btn-group">
-                <button className="share-btn" onClick={() => shareService(service)}>
-                  {copiedServiceId === service._id ? <><FaCheck style={{ color: "green" }} /> Copied!</> : <><FaShareAlt /> Share</>}
-                </button>
-                <button className="buy-btn" onClick={() => handleBuyClick(service)}>
-                  <FaShoppingCart /> Buy
-                </button>
+            return (
+              <div key={service._id} className="service-card">
+                <h3>{service.name}</h3>
+                <p>{service.description}</p>
+                <p><strong>Price:</strong> ${service.price}</p>
+                <p>
+                  ⭐ {rating} ({reviews} reviews)
+                </p>
+
+                <div className="btn-group">
+                  <button className="share-btn" onClick={() => shareService(service)}>
+                    {copiedServiceId === service._id ? <><FaCheck style={{ color: "green" }} /> Copied!</> : <><FaShareAlt /> Share</>}
+                  </button>
+                  <button className="buy-btn" onClick={() => handleBuyClick(service)}>
+                    <FaShoppingCart /> Buy
+                  </button>
+                </div>
+
+                <FaHeart
+                  className="favorite-icon"
+                  onClick={() => toggleFavorite(service._id)}
+                  style={{ cursor: "pointer", color: likedServices[service._id] ? "red" : "gray", fontSize: "1.5rem", marginTop: "10px" }}
+                />
               </div>
-
-              <FaHeart
-                className="favorite-icon"
-                onClick={() => toggleFavorite(service._id)}
-                style={{ cursor: "pointer", color: likedServices[service._id] ? "red" : "gray", fontSize: "1.5rem", marginTop: "10px" }}
-              />
-            </div>
-          ))}
+            );
+          })}
         </div>
       ) : (
         <p>No services found</p>
