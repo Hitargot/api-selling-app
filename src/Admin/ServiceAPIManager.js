@@ -1,27 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const ServiceAPIManager = () => {
-  const [serviceId, setServiceId] = useState("");
+  const [services, setServices] = useState([]);
+  const [selectedService, setSelectedService] = useState("");
   const [apiKey, setApiKey] = useState("");
   const [fetchedApiKey, setFetchedApiKey] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_BASE_URL = "https://new-app-site-a384f2c56775.herokuapp.com/api/service-api"; // Adjust according to your backend
+  const API_BASE_URL = "https://new-app-site-a384f2c56775.herokuapp.com/api/service-api";
+
+  // Fetch available services on component mount
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/services`);
+        setServices(response.data.services);
+      } catch (error) {
+        setMessage("Error fetching services.");
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  // Fetch API key when a service is selected
+  useEffect(() => {
+    if (selectedService) {
+      fetchAPIKey(selectedService);
+    }
+  }, [selectedService]);
 
   // Fetch API Key
-  const fetchAPIKey = async () => {
+  const fetchAPIKey = async (serviceId) => {
     setLoading(true);
     setMessage("");
 
     try {
       const response = await axios.get(`${API_BASE_URL}/fetch/${serviceId}`);
       setFetchedApiKey(response.data.apiKey);
-      setMessage("API Key fetched successfully.");
+      setApiKey(response.data.apiKey || ""); // Set API key in input field
     } catch (error) {
       setFetchedApiKey(null);
-      setMessage(error.response?.data?.error || "Error fetching API Key.");
+      setApiKey("");
+      setMessage(error.response?.data?.error || "API Key not found.");
     } finally {
       setLoading(false);
     }
@@ -29,12 +52,17 @@ const ServiceAPIManager = () => {
 
   // Add or Update API Key
   const addOrUpdateAPIKey = async () => {
+    if (!selectedService) {
+      setMessage("Please select a service.");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
     try {
       const response = await axios.post(`${API_BASE_URL}/add-or-update`, {
-        serviceId,
+        serviceId: selectedService,
         apiKey,
       });
       setMessage(response.data.message);
@@ -47,13 +75,19 @@ const ServiceAPIManager = () => {
 
   // Delete API Key
   const deleteAPIKey = async () => {
+    if (!selectedService) {
+      setMessage("Please select a service.");
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
     try {
-      const response = await axios.delete(`${API_BASE_URL}/delete/${serviceId}`);
+      const response = await axios.delete(`${API_BASE_URL}/delete/${selectedService}`);
       setMessage(response.data.message);
       setFetchedApiKey(null);
+      setApiKey("");
     } catch (error) {
       setMessage(error.response?.data?.error || "Error deleting API Key.");
     } finally {
@@ -67,15 +101,22 @@ const ServiceAPIManager = () => {
 
       {message && <p className="mb-4 text-center text-blue-600">{message}</p>}
 
-      <label className="block mb-2 font-semibold">Service ID:</label>
-      <input
-        type="text"
+      {/* Dropdown for selecting a service */}
+      <label className="block mb-2 font-semibold">Select Service:</label>
+      <select
         className="w-full p-2 border rounded mb-4"
-        value={serviceId}
-        onChange={(e) => setServiceId(e.target.value)}
-        placeholder="Enter Service ID"
-      />
+        value={selectedService}
+        onChange={(e) => setSelectedService(e.target.value)}
+      >
+        <option value="">-- Select a Service --</option>
+        {services.map((service) => (
+          <option key={service.id} value={service.id}>
+            {service.name}
+          </option>
+        ))}
+      </select>
 
+      {/* API Key Input */}
       <label className="block mb-2 font-semibold">API Key:</label>
       <input
         type="text"
@@ -86,14 +127,6 @@ const ServiceAPIManager = () => {
       />
 
       <div className="flex space-x-2">
-        <button
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
-          onClick={fetchAPIKey}
-          disabled={loading}
-        >
-          {loading ? "Fetching..." : "Fetch API Key"}
-        </button>
-
         <button
           className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
           onClick={addOrUpdateAPIKey}
@@ -111,9 +144,10 @@ const ServiceAPIManager = () => {
         </button>
       </div>
 
+      {/* Display fetched API Key */}
       {fetchedApiKey && (
         <div className="mt-4 p-3 bg-gray-100 border rounded">
-          <h3 className="text-lg font-semibold">Fetched API Key:</h3>
+          <h3 className="text-lg font-semibold">Stored API Key:</h3>
           <p className="text-gray-700">{fetchedApiKey}</p>
         </div>
       )}
