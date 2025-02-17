@@ -10,12 +10,14 @@ const ServiceAPIManager = () => {
   const [message, setMessage] = useState("");
 
   const API_BASE_URL = "https://new-app-site-a384f2c56775.herokuapp.com/api/service-api";
+  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
+  //const apiUrl = "http://localhost:5000";
 
   // Fetch available services on component mount
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/services`);
+        const response = await axios.get(`${apiUrl}/api/services/services`);
         setServices(response.data.services);
       } catch (error) {
         setMessage("Error fetching services.");
@@ -23,7 +25,7 @@ const ServiceAPIManager = () => {
     };
 
     fetchServices();
-  }, []);
+  }, [apiUrl]);
 
   // Fetch API key when a service is selected
   useEffect(() => {
