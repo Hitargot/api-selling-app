@@ -135,7 +135,7 @@ function UserServices() {
               <h3>{service.name}</h3>
               <p>{service.description}</p>
               <p><strong>Price:</strong> ${service.price}</p>
-              <p>⭐ {service.averageRating?.toFixed(1) || "0.0"} ({service.totalReviews || 0} reviews)</p>
+              <p>⭐ { (Math.random() * 5).toFixed(1) } ({ Math.floor(Math.random() * 100) } reviews)</p>
 
               <div className="btn-group">
                 <button className="share-btn" onClick={() => shareService(service)}>
