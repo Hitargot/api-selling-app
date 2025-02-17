@@ -15,6 +15,8 @@ function UserServices() {
   const [copiedServiceId, setCopiedServiceId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [searchParams] = useSearchParams(); // ✅ Get URL search params
+  const [rating, setRating] = useState(null);
+  const [reviews, setReviews] = useState(null);
   const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
   //const apiUrl = "http://localhost:5000";
 
@@ -102,6 +104,31 @@ function UserServices() {
     setFilteredServices(filtered);
   };
 
+
+
+  useEffect(() => {
+    // Check if the values are already in localStorage
+    const storedRating = localStorage.getItem("serviceRating");
+    const storedReviews = localStorage.getItem("serviceReviews");
+
+    if (storedRating && storedReviews) {
+      // If values exist in localStorage, use them
+      setRating(parseFloat(storedRating));
+      setReviews(parseInt(storedReviews));
+    } else {
+      // If no values are stored, generate new ones and store them
+      const generatedRating = (4.2 + Math.random() * (5 - 4.2)).toFixed(1);
+      const generatedReviews = Math.floor(Math.random() * (14 - 4 + 1)) + 4;
+
+      setRating(generatedRating);
+      setReviews(generatedReviews);
+
+      // Store the generated values in localStorage
+      localStorage.setItem("serviceRating", generatedRating);
+      localStorage.setItem("serviceReviews", generatedReviews);
+    }
+  }, []); // Empty dependency array ensures this runs only once (on mount)
+
   return (
     <div>
       <div className="header-container">
@@ -136,8 +163,7 @@ function UserServices() {
               <p>{service.description}</p>
               <p><strong>Price:</strong> ${service.price}</p>
               <p>
-                ⭐ {(4.2 + Math.random() * (5 - 4.2)).toFixed(1)} (
-                {Math.floor(Math.random() * (14 - 4 + 1)) + 4} reviews)
+                ⭐ {rating} ({reviews} reviews)
               </p>
 
               <div className="btn-group">
