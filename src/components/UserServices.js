@@ -107,9 +107,9 @@ function UserServices() {
 
 
   useEffect(() => {
-    // Check if the values are already in localStorage
-    const storedRating = localStorage.getItem("serviceRating");
-    const storedReviews = localStorage.getItem("serviceReviews");
+    // Check if the values are already in localStorage for this service
+    const storedRating = localStorage.getItem(`serviceRating_${serviceId}`);
+    const storedReviews = localStorage.getItem(`serviceReviews_${serviceId}`);
 
     if (storedRating && storedReviews) {
       // If values exist in localStorage, use them
@@ -123,11 +123,12 @@ function UserServices() {
       setRating(generatedRating);
       setReviews(generatedReviews);
 
-      // Store the generated values in localStorage
-      localStorage.setItem("serviceRating", generatedRating);
-      localStorage.setItem("serviceReviews", generatedReviews);
+      // Store the generated values in localStorage with unique serviceId
+      localStorage.setItem(`serviceRating_${serviceId}`, generatedRating);
+      localStorage.setItem(`serviceReviews_${serviceId}`, generatedReviews);
     }
-  }, []); // Empty dependency array ensures this runs only once (on mount)
+  }, [serviceId]); // Dependency array now listens for changes to serviceId
+
 
   return (
     <div>
