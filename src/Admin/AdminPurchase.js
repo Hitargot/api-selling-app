@@ -29,11 +29,10 @@ const AdminPurchase = () => {
 
   const handleStatusChange = async (purchaseId, status) => {
     try {
-      const response = await axios.post(`${apiUrl}/api/admin/purchase/status`, 
-  { purchaseId, status }, 
-  { headers: { Authorization: `Bearer ${apiKey}` } }
-);
-
+      const response = await axios.post(`${apiUrl}/api/admin/purchase/status`, {
+        purchaseId,
+        status,
+      });
   
       // Update the purchase status locally
       setPurchases((prevPurchases) =>
