@@ -112,7 +112,7 @@ const ServiceAPIManager = () => {
       >
         <option value="">-- Select a Service --</option>
         {services.map((service) => (
-          <option key={service.id} value={service.id}>
+          <option key={service._id} value={service._id}>
             {service.name}
           </option>
         ))}
