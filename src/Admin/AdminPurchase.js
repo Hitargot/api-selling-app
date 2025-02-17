@@ -33,18 +33,28 @@ const AdminPurchase = () => {
         purchaseId,
         status,
       });
+  
+      // Update the purchase status locally
       setPurchases((prevPurchases) =>
         prevPurchases.map((purchase) =>
           purchase._id === purchaseId ? { ...purchase, status } : purchase
         )
       );
+  
+      // Show success alert
       setAlert({ message: response.data.message, type: 'success' });
+      
+      // Clear modal data
       setModalData(null);
     } catch (error) {
       console.error('Error updating purchase status:', error);
-      setAlert({ message: 'Failed to update status.', type: 'error' });
+  
+      // Improved error handling
+      const errorMessage = error.response?.data?.message || 'Failed to update status.';
+      setAlert({ message: errorMessage, type: 'error' });
     }
   };
+  
 
   const openModal = (purchaseId, status) => {
     setModalData({ purchaseId, status });
