@@ -1,12 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import {
-  FaShoppingCart,
-  FaShareAlt,
-  FaArrowRight,
-  FaHeart,
-  FaCheck,
-} from "react-icons/fa";
+import { FaShoppingCart, FaShareAlt, FaArrowRight, FaHeart, FaCheck } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./HomeList.css";
 import BuyModal from "./BuyModal";
