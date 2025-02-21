@@ -1,9 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-import { FaShoppingCart, FaShareAlt, FaArrowRight, FaHeart, FaCheck } from "react-icons/fa";
+import {
+  FaShoppingCart,
+  FaShareAlt,
+  FaArrowRight,
+  FaHeart,
+  FaCheck,
+} from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import "./HomeList.css";
-import BuyModal from "./BuyModal"; // ✅ Import BuyModal
+import BuyModal from "./BuyModal";
 
 function ApiList() {
   const [services, setServices] = useState([]);
@@ -11,18 +17,22 @@ function ApiList() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [copiedServiceId, setCopiedServiceId] = useState(null);
-  const navigate = useNavigate();
   const [selectedService, setSelectedService] = useState(null);
+  const [serviceRatings, setServiceRatings] = useState({});
+  const navigate = useNavigate();
+  
   const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
   // const apiUrl = "http://localhost:5000";
 
   useEffect(() => {
+    // Load liked services from localStorage
     const savedLikes = JSON.parse(localStorage.getItem("likedServices")) || {};
     setLikedServices(savedLikes);
   }, []);
 
   useEffect(() => {
-    axios.get(`${apiUrl}/api/services/services`)
+    axios
+      .get(`${apiUrl}/api/services/services`)
       .then((response) => {
         if (Array.isArray(response.data)) {
           setServices(response.data);
@@ -39,12 +49,31 @@ function ApiList() {
       });
   }, []);
 
-  const getRandomServices = (servicesArray) => {
-    if (!Array.isArray(servicesArray) || servicesArray.length === 0) return [];
-    return [...servicesArray].sort(() => 0.5 - Math.random()).slice(0, 3);
-  };
+  useEffect(() => {
+    // Store service ratings and reviews in state to avoid re-calculating on each render
+    const ratings = {};
+    services.forEach((service) => {
+      const storedRating = localStorage.getItem(`serviceRating_${service._id}`);
+      const storedReviews = localStorage.getItem(`serviceReviews_${service._id}`);
 
-  const randomServices = getRandomServices(services);
+      if (storedRating && storedReviews) {
+        ratings[service._id] = { rating: parseFloat(storedRating), reviews: parseInt(storedReviews) };
+      } else {
+        const generatedRating = (4.2 + Math.random() * (5 - 4.2)).toFixed(1);
+        const generatedReviews = Math.floor(Math.random() * (14 - 4 + 1)) + 4;
+
+        localStorage.setItem(`serviceRating_${service._id}`, generatedRating);
+        localStorage.setItem(`serviceReviews_${service._id}`, generatedReviews);
+
+        ratings[service._id] = { rating: generatedRating, reviews: generatedReviews };
+      }
+    });
+    setServiceRatings(ratings);
+  }, [services]);
+
+  const randomServices = useMemo(() => {
+    return [...services].sort(() => 0.5 - Math.random()).slice(0, 3);
+  }, [services]);
 
   const toggleFavorite = (id) => {
     const updatedLikes = { ...likedServices, [id]: !likedServices[id] };
@@ -54,27 +83,23 @@ function ApiList() {
 
   const shareService = async (service) => {
     const shareData = {
-        title: service.name,
-        text: `${service.name} - ${service.description}\nPrice: $${service.price}\nCheck it out here:`,
-        url: `${window.location.origin}/services?search=${service._id}`,
+      title: service.name,
+      text: `${service.name} - ${service.description}\nPrice: $${service.price}\nCheck it out here:`,
+      url: `${window.location.origin}/services?search=${service._id}`,
     };
 
     if (navigator.share) {
-        try {
-            await navigator.share(shareData);
-            console.log("✅ Service shared successfully");
-        } catch (error) {
-            console.error("❌ Share failed:", error);
-        }
+      try {
+        await navigator.share(shareData);
+        console.log("✅ Service shared successfully");
+      } catch (error) {
+        console.error("❌ Share failed:", error);
+      }
     } else {
-        navigator.clipboard.writeText(shareData.url);
-        setCopiedServiceId(service._id);
-        setTimeout(() => setCopiedServiceId(null), 2000);
+      navigator.clipboard.writeText(shareData.url);
+      setCopiedServiceId(service._id);
+      setTimeout(() => setCopiedServiceId(null), 2000);
     }
-};
-
-  const handleBuyClick = (service) => {
-    setSelectedService(service);
   };
 
   return (
@@ -84,7 +109,7 @@ function ApiList() {
 
         {loading ? (
           <div className="loading-container">
-            <div className="spinner"></div>
+            <div className="skeleton-loader"></div>
             <p>Loading services...</p>
           </div>
         ) : error ? (
@@ -92,47 +117,54 @@ function ApiList() {
         ) : (
           <>
             <div className="service-grid">
-              {randomServices.map((service) => (
-                <div key={service._id} className="api-card">
-                  <h3>{service.name}</h3>
-                  <div className="rating">
-                    ⭐ {service.averageRating?.toFixed(1) || "0.0"}
-                    <span>({service.totalReviews || 0} reviews)</span>
-                  </div>
-                  <p className="description">{service.description}</p>
-                  <p><strong>Price:</strong> ${service.price}</p>
+              {randomServices.map((service) => {
+                const { rating, reviews } = serviceRatings[service._id] || {
+                  rating: "N/A",
+                  reviews: "N/A",
+                };
+                return (
+                  <div key={service._id} className="api-card">
+                    <h3>{service.name}</h3>
+                    <div className="rating">
+                      ⭐ {rating} ({reviews} reviews)
+                    </div>
+                    <p className="description">{service.description}</p>
+                    <p><strong>Price:</strong> ${service.price}</p>
 
-                  <div className="btn-group">
-                    {/* ✅ Share Button */}
-                    <button className="share-btn" onClick={() => shareService(service)}>
-                      {copiedServiceId === service._id ? (
-                        <>
-                          <FaCheck style={{ color: "green" }} /> Copied!
-                        </>
-                      ) : (
-                        <>
-                          <FaShareAlt /> Share
-                        </>
-                      )}
-                    </button>
-                    <button className="buy-btn" onClick={() => handleBuyClick(service)}>
-                      <FaShoppingCart /> Buy
-                    </button>
-                  </div>
+                    <div className="btn-group">
+                      <button className="share-btn" onClick={() => shareService(service)}>
+                        {copiedServiceId === service._id ? (
+                          <>
+                            <FaCheck style={{ color: "green" }} /> Copied!
+                          </>
+                        ) : (
+                          <>
+                            <FaShareAlt /> Share
+                          </>
+                        )}
+                      </button>
+                      <button className="buy-btn" onClick={() => setSelectedService(service)}>
+                        <FaShoppingCart /> Buy
+                      </button>
+                    </div>
 
-                  <FaHeart
-                    className="favorite-icon"
-                    onClick={() => toggleFavorite(service._id)}
-                    style={{
-                      cursor: "pointer",
-                      color: likedServices[service._id] ? "red" : "gray",
-                      fontSize: "1.5rem",
-                      marginTop: "10px",
-                    }}
-                    aria-label="Toggle Favorite"
-                  />
-                </div>
-              ))}
+                    <FaHeart
+                      className="favorite-icon"
+                      onClick={() => toggleFavorite(service._id)}
+                      style={{
+                        cursor: "pointer",
+                        color: likedServices[service._id] ? "red" : "gray",
+                        fontSize: "1.5rem",
+                        marginTop: "10px",
+                        transition: "transform 0.2s ease-in-out",
+                      }}
+                      onMouseDown={(e) => (e.target.style.transform = "scale(1.2)")}
+                      onMouseUp={(e) => (e.target.style.transform = "scale(1)")}
+                      aria-label="Toggle Favorite"
+                    />
+                  </div>
+                );
+              })}
             </div>
 
             <div className="see-more-container">
