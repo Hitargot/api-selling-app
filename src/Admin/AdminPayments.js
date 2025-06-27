@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Alert from "../components/Alert"; // Import Alert component
 import "../AdminStyle/AdminPayments.css";
+import apiUrl from '../utils/api';
 
 const AdminPayments = () => {
   const [payments, setPayments] = useState([]);
@@ -12,12 +13,11 @@ const AdminPayments = () => {
   const [editId, setEditId] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  //const apiUrl = "http://localhost:5000";
+
   
   useEffect(() => {
     fetchPayments();
-  }, [apiUrl]);
+  });
 
   const fetchPayments = async () => {
     try {

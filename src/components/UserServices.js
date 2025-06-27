@@ -4,6 +4,7 @@ import { FaShoppingCart, FaShareAlt, FaHeart, FaCheck, FaSearch, FaHome } from "
 import { useNavigate, useSearchParams } from "react-router-dom"; // ✅ Import useSearchParams
 import BuyModal from "./BuyModal";
 import "./UserServices.css";
+import apiUrl from '../utils/api';
 
 function UserServices() {
   const [services, setServices] = useState([]);
@@ -15,8 +16,6 @@ function UserServices() {
   const [copiedServiceId, setCopiedServiceId] = useState(null);
   const [selectedService, setSelectedService] = useState(null);
   const [searchParams] = useSearchParams(); // ✅ Get URL search params
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  //const apiUrl = "http://localhost:5000";
 
   const navigate = useNavigate(); // ✅ Hook for navigation
 
@@ -43,7 +42,7 @@ function UserServices() {
         setError("Failed to load services");
         setLoading(false);
       });
-  }, [apiUrl]);
+  });
 
   // ✅ Apply search query from URL
   useEffect(() => {

@@ -4,6 +4,7 @@ import { FaShoppingCart, FaShareAlt, FaArrowRight, FaHeart, FaCheck } from "reac
 import { useNavigate } from "react-router-dom";
 import "./ApiList.css";
 import BuyModal from "./BuyModal";
+import apiUrl from '../utils/api';
 
 function ApiList() {
   const [services, setServices] = useState([]);
@@ -15,9 +16,6 @@ function ApiList() {
   const [serviceRatings, setServiceRatings] = useState({});
   const navigate = useNavigate();
   
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  // const apiUrl = "http://localhost:5000";
-
   useEffect(() => {
     // Load liked services from localStorage
     const savedLikes = JSON.parse(localStorage.getItem("likedServices")) || {};

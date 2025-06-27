@@ -2,14 +2,13 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Alert from '../components/Alert'; // Import your Alert component
 import '../AdminStyle/AdminPurchase.css';
+import apiUrl from '../utils/api';
 
 const AdminPurchase = () => {
   const [purchases, setPurchases] = useState([]);
   const [loading, setLoading] = useState(true);
   const [alert, setAlert] = useState({ message: '', type: '' });
   const [modalData, setModalData] = useState(null);
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  //const apiUrl = "http://localhost:5000";
   
 
   useEffect(() => {
@@ -25,7 +24,7 @@ const AdminPurchase = () => {
       }
     };
     fetchPurchases();
-  }, [apiUrl]);
+  });
 
   const handleStatusChange = async (purchaseId, status) => {
     try {

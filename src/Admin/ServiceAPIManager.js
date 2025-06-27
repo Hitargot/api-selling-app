@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import apiUrl from '../utils/api';
 
 const ServiceAPIManager = () => {
   const [services, setServices] = useState([]);
@@ -10,12 +11,11 @@ const ServiceAPIManager = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const API_BASE_URL = "https://new-app-site-a384f2c56775.herokuapp.com/api/service-api";
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/fetch-all-services`);
+        const response = await axios.get(`${apiUrl}/fetch-all-services`);
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -28,7 +28,7 @@ const ServiceAPIManager = () => {
 
   const fetchAPIList = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/fetch-api-list`);
+      const response = await axios.get(`${apiUrl}/fetch-api-list`);
       setApiList(response.data);
     } catch (error) {
       console.error("Error fetching API list:", error);
@@ -45,7 +45,7 @@ const ServiceAPIManager = () => {
     setMessage("");
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/add-or-update`, {
+      const response = await axios.post(`${apiUrl}/add-or-update`, {
         serviceId: selectedService,
         apiKey,
       });
@@ -67,7 +67,7 @@ const ServiceAPIManager = () => {
     setMessage("");
 
     try {
-      const response = await axios.delete(`${API_BASE_URL}/delete/${serviceId}`);
+      const response = await axios.delete(`${apiUrl}/delete/${serviceId}`);
       setMessage(response.data.message);
       fetchAPIList();
     } catch (error) {

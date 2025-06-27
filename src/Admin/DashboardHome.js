@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import "../AdminStyle/DashboardHome.css";
+import apiUrl from '../utils/api';
 
 
 function DashboardHome() {
@@ -9,8 +10,7 @@ function DashboardHome() {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  //const apiUrl = "http://localhost:5000";
+
   
 
   useEffect(() => {

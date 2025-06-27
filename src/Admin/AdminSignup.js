@@ -2,13 +2,12 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../AdminStyle/AdminSignup.css";
+import apiUrl from '../utils/api';
 
 function AdminSignup() {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-//const apiUrl = "http://localhost:5000";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

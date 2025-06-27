@@ -3,14 +3,13 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Alert from "../components/Alert"; // Import the Alert component
 import "../AdminStyle/AdminLogin.css";
+import apiUrl from '../utils/api';
 
 function AdminLogin() {
   const [formData, setFormData] = useState({ emailOrUsername: "", password: "" });
   const [alert, setAlert] = useState({ message: "", type: "" });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-//const apiUrl = "http://localhost:5000";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

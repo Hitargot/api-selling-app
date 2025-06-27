@@ -3,6 +3,7 @@ import { FaTimes, FaCopy } from "react-icons/fa";
 import axios from "axios";
 import "./BuyModal.css";
 import Alert from "./Alert";
+import apiUrl from '../utils/api';
 
 const BuyModal = ({ service, onClose }) => {
     const [step, setStep] = useState(1);
@@ -18,8 +19,6 @@ const BuyModal = ({ service, onClose }) => {
     const [paymentMethods, setPaymentMethods] = useState([]);
     const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
     const [countdown, setCountdown] = useState(30 * 60);
-    const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-//const apiUrl = "http://localhost:5000";
 
     // Fetch payment methods from the backend
     useEffect(() => {
@@ -27,7 +26,7 @@ const BuyModal = ({ service, onClose }) => {
             .get(`${apiUrl}/api/payments/payment`)
             .then((response) => setPaymentMethods(response.data))
             .catch((error) => console.error("Error fetching payment methods:", error));
-    }, [apiUrl]);
+    });
 
     // Countdown Timer Effect
     useEffect(() => {
@@ -133,7 +132,7 @@ const BuyModal = ({ service, onClose }) => {
     
     useEffect(() => {
         console.log("Alert state:", alert);
-    }, [alert, apiUrl]);
+    }, [alert]);
     
     // Copy Address to Clipboard
     const handleCopyAddress = () => {

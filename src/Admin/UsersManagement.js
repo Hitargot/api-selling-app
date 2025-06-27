@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import apiUrl from "../utils/api";
 
 function UsersManagement() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/admin/users")
+    axios.get(`${apiUrl}/api/admin/users`)
       .then((res) => setUsers(res.data))
       .catch((err) => console.error(err));
   }, []);

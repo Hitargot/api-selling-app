@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Alert from "../components/Alert"; // Ensure Alert is implemented properly
 import "../AdminStyle/AdminService.css";
+import apiUrl from '../utils/api';
 
 function AdminService() {
   const [services, setServices] = useState([]);
@@ -10,8 +11,6 @@ function AdminService() {
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState({ message: "", type: "" });
   const [deleteService, setDeleteService] = useState(null); // Store service to delete
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  //const apiUrl = "http://localhost:5000";
   
 
   const showAlert = (message, type) => {
@@ -22,18 +21,19 @@ function AdminService() {
     }, 3000);
   };
 
-  const fetchServices = useCallback(async () => {
+  const fetchServices = async () => {
     try {
       const res = await axios.get(`${apiUrl}/api/services/services`);
       setServices(res.data);
     } catch (error) {
       console.error("Error fetching services:", error);
     }
-  }, [apiUrl]);
+  };
+  
   
   useEffect(() => {
     fetchServices();
-  }, [fetchServices]);
+  });
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

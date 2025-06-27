@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../AdminStyle/ResetPassword.css";
 import Alert from "../components/Alert"; // Import the Alert component
+import apiUrl from '../utils/api';
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -10,8 +11,6 @@ const ResetPassword = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [alert, setAlert] = useState({ message: "", type: "" }); // State for alert
-  const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-  // const apiUrl = "http://localhost:5000";
 
   const handleResetPassword = async (e) => {
     e.preventDefault();

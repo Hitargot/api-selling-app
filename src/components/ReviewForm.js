@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import apiUrl from '../utils/api';
 
 function ReviewForm({ serviceId }) {
   const [rating, setRating] = useState(5);
@@ -7,7 +8,7 @@ function ReviewForm({ serviceId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post(`http://localhost:5000/api/services/${serviceId}/review`, {
+    await axios.post(`${apiUrl}/api/services/${serviceId}/review`, {
       rating,
       comment
     }, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } });

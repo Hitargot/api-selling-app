@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import axios from "axios";
 import Alert from "../components/Alert"; // Import the Alert component
 import "../AdminStyle/AdminForgotPassword.css";
+import apiUrl from '../utils/api';
 
 function AdminForgotPassword() {
   const [email, setEmail] = useState("");
   const [alert, setAlert] = useState({ message: "", type: "" });
   const [loading, setLoading] = useState(false);
-const apiUrl = "https://new-app-site-a384f2c56775.herokuapp.com";
-//const apiUrl = "http://localhost:5000";
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
