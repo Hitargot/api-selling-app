@@ -51,8 +51,8 @@ const Contact = () => {
                 fontSize: theme.fontSizes.base,
               }}
             >
-              support@apimarket.com
-            </a>
+              apismarketplace930@gmail.com  
+              </a>
           </div>
 
           {/* <div style={{ display: "flex", alignItems: "center", gap: theme.spacing.sm }}>
