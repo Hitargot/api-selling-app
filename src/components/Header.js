@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
 import theme from "../theme";
 import { Server, Info, Mail } from "lucide-react"; // clean, modern icons
+import logo from "../assets/logoo.png"; // adjust the path as needed
 
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,15 +51,15 @@ const navItems = [
       }}
     >
       {/* Logo */}
-      <div
-        style={{
-          fontSize: theme.fontSizes.large,
-          fontWeight: "bold",
-          color: theme.colors.primary,
-        }}
-      >
-        API Marketplace
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <img src={logo} alt="API Marketplace Logo" style={{ height: 70 }} />
+      <div>
+        <h2 style={{ margin: 0, color: theme.colors.primary }}>API Marketplace</h2>
+        <p style={{ margin: 0, fontSize: "0.9rem", color: "#666" }}>
+          Explore and buy APIs instantly
+        </p>
       </div>
+    </div>
 
       {/* Desktop Nav */}
       {!isMobile && (

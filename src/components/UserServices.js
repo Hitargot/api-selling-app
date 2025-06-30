@@ -14,6 +14,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import BuyModal from "./BuyModal";
 import apiUrl from "../utils/api";
 import theme from "../theme";
+import logo from "../assets/logoo.png"; // adjust the path as needed
 
 function UserServices() {
   const [services, setServices] = useState([]);
@@ -126,12 +127,15 @@ function UserServices() {
     <div style={{ backgroundColor, color: textColor, minHeight: "100vh", transition: "all 0.3s ease" }}>
       <div style={{ padding: "20px", borderBottom: `1px solid ${borderColor}` }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", maxWidth: "1100px", margin: "auto" }}>
-          <div>
-            <h2 style={{ margin: 0, color: darkMode ? "#fff" : theme.colors.primary }}>API Marketplace</h2>
-            <p style={{ margin: 0, fontSize: "0.9rem", color: darkMode ? "#aaa" : "#666" }}>
-              Explore and buy APIs instantly
-            </p>
-          </div>
+        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+      <img src={logo} alt="API Marketplace Logo" style={{ height: 70 }} />
+      <div>
+        <h2 style={{ margin: 0, color: theme.colors.primary }}>API Marketplace</h2>
+        <p style={{ margin: 0, fontSize: "0.9rem", color: "#666" }}>
+          Explore and buy APIs instantly
+        </p>
+      </div>
+    </div>  
           <div style={{ display: "flex", gap: "12px", alignItems: "center" }}>
             <FaHome
               onClick={() => navigate("/")}
