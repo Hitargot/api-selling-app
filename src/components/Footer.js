@@ -1,12 +1,21 @@
 import React from "react";
-import "./Footer.css";
+import theme from "../theme";
 
-function Footer() {
+const Footer = () => {
   return (
-    <footer>
+    <footer
+      style={{
+        backgroundColor: theme.colors.footer,
+        color: theme.colors.footerText,
+        textAlign: "center",
+        padding: theme.spacing.lg,
+        marginTop: "auto",
+        fontSize: theme.fontSizes.small,
+      }}
+    >
       <p>© 2025 API Marketplace. All rights reserved.</p>
     </footer>
   );
-}
+};
 
 export default Footer;

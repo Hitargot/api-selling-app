@@ -13,12 +13,16 @@ import AdminPayments from "./Admin/AdminPayments";
 import AdminPurchase from "./Admin/AdminPurchase";
 import ServiceDetails from "./components/ServiceDetails";
 import ServiceAPIManager from "./Admin/ServiceAPIManager";
-
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
+
   return (
     <Router>
+            <ToastContainer position="top-right" autoClose={4000} theme="colored" />
+
       <Routes>
+        
         <Route path="/" element={<Home />} />
         <Route path="/admin/signup" element={<AdminSignup />} />
         <Route path="/admin/login" element={<AdminLogin />} />

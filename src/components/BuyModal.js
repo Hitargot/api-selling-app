@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaTimes, FaCopy, FaCheckCircle } from "react-icons/fa";
 import axios from "axios";
-import Alert from "./Alert";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import apiUrl from '../utils/api';
 
 const BuyModal = ({ service, onClose }) => {
@@ -14,19 +15,11 @@ const BuyModal = ({ service, onClose }) => {
     receipt: null,
   });
   const [loading, setLoading] = useState(false);
-  const [alert, setAlert] = useState({ message: "", type: "" });
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const [countdown, setCountdown] = useState(30 * 60);
   const [selectedPackage, setSelectedPackage] = useState(null);
-
-  // const packages = [
-  //   { name: "Starter", description: "Basic features", price: 9, features: ["Basic Dashboard", "Priority Support", "Unlimited Access"] },
-  //   { name: "Pro", description: "Advanced tools", price: 19, features: ["Basic Dashboard", "Priority Support", "Unlimited Access"] },
-  //   { name: "Enterprise", description: "Full suite + support", price: 49, features: ["Basic Dashboard", "Priority Support", "Unlimited Access"] }
-  // ];
   const packages = service?.packages || [];
-
 
   useEffect(() => {
     axios.get(`${apiUrl}/api/payments/payment`)
@@ -39,6 +32,15 @@ const BuyModal = ({ service, onClose }) => {
     const timer = setInterval(() => setCountdown((prev) => (prev > 0 ? prev - 1 : 0)), 1000);
     return () => clearInterval(timer);
   }, [countdown]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (e.target.id === "modal-backdrop") onClose();
+    };
+    window.addEventListener("click", handleClickOutside);
+    return () => window.removeEventListener("click", handleClickOutside);
+  }, [onClose]); // ✅ fixed warning
+
 
   const formatCountdown = () => {
     const minutes = Math.floor(countdown / 60);
@@ -54,9 +56,8 @@ const BuyModal = ({ service, onClose }) => {
       if (selected) {
         setSelectedPaymentMethod(selected);
         setCountdown(30 * 60);
-        setAlert({ message: "", type: "" });
       } else {
-        setAlert({ message: "Invalid payment method selected.", type: "error" });
+        toast.error("Invalid payment method selected.");
       }
     }
   };
@@ -64,15 +65,14 @@ const BuyModal = ({ service, onClose }) => {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file && !file.type.startsWith("image/")) {
-      setAlert({ message: "Only image files are allowed!", type: "error" });
+      toast.error("Only image files are allowed!");
       return;
     }
     if (file && file.size > 5 * 1024 * 1024) {
-      setAlert({ message: "File size must be under 5MB!", type: "error" });
+      toast.error("File size must be under 5MB!");
       return;
     }
     setFormData((prev) => ({ ...prev, receipt: file }));
-    setAlert({ message: "", type: "" });
   };
 
   const handleSubmit = async (e) => {
@@ -96,10 +96,10 @@ const BuyModal = ({ service, onClose }) => {
         const res = await axios.post(`${apiUrl}/api/purchase`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        setAlert({ message: res.data.message, type: "success" });
-        setTimeout(() => { setAlert({ message: "", type: "" }); onClose(); }, 3000);
+        toast.success(res.data.message);
+        setTimeout(() => onClose(), 3000);
       } catch (err) {
-        setAlert({ type: "error", message: err.response?.data?.error || "Error submitting purchase" });
+        toast.error(err.response?.data?.error || "Error submitting purchase");
       } finally {
         setLoading(false);
       }
@@ -109,13 +109,13 @@ const BuyModal = ({ service, onClose }) => {
   const handleCopyAddress = () => {
     if (selectedPaymentMethod?.address) {
       navigator.clipboard.writeText(selectedPaymentMethod.address);
-      setAlert({ message: "Address copied to clipboard!", type: "success" });
-      setTimeout(() => setAlert({ message: "", type: "" }), 3000);
+      toast.success("Address copied to clipboard!");
     }
   };
 
   return (
     <div
+      id="modal-backdrop"
       style={{
         position: "fixed",
         top: 0,
@@ -128,7 +128,7 @@ const BuyModal = ({ service, onClose }) => {
         padding: "40px 16px",
         display: "flex",
         justifyContent: "center",
-        alignItems: "flex-start", // <-- FIX HERE
+        alignItems: "flex-start",
       }}
     >
 
@@ -140,7 +140,6 @@ const BuyModal = ({ service, onClose }) => {
           <FaTimes />
         </button>
 
-        {alert.message && <Alert message={alert.message} type={alert.type} onClose={() => setAlert({ message: "", type: "" })} />}
 
         {step === 1 && (
           <div
