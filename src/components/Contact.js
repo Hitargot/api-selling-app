@@ -55,10 +55,10 @@ const Contact = () => {
             </a>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: theme.spacing.sm }}>
+          {/* <div style={{ display: "flex", alignItems: "center", gap: theme.spacing.sm }}>
             <FaPhone style={{ color: theme.colors.primaryDark }} />
             <span style={{ fontSize: theme.fontSizes.base }}>+1 (910) 734-6464</span>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>
