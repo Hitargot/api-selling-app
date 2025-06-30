@@ -82,21 +82,29 @@ const BuyModal = ({ service, onClose }) => {
     if (step === 4 && formData.receipt) {
       try {
         setLoading(true);
-        const data = new FormData();
+    
+        const { receipt, ...rest } = formData;
+        const data = new FormData(); // ✅ Declare FormData properly
+    
         Object.entries({
-          ...formData,
+          ...rest,
           serviceName: service.name,
           packageName: selectedPackage?.name,
           packageDescription: selectedPackage?.description,
           price: selectedPackage?.price || service.price
         }).forEach(([k, v]) => data.append(k, v));
-        data.append("receipt", formData.receipt);
+    
+        data.append("receipt", receipt);
         data.append("packageFeatures", JSON.stringify(selectedPackage?.features || []));
-
+    
         const res = await axios.post(`${apiUrl}/api/purchase`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        toast.success(res.data.message);
+    
+        toast.success(res.data.message, {
+          onClose: () => onClose(), // ✅ closes modal after toast disappears
+          autoClose: 3000,
+        });        
         setTimeout(() => onClose(), 3000);
       } catch (err) {
         toast.error(err.response?.data?.error || "Error submitting purchase");
@@ -104,6 +112,7 @@ const BuyModal = ({ service, onClose }) => {
         setLoading(false);
       }
     }
+    
   };
 
   const handleCopyAddress = () => {

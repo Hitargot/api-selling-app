@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import apiUrl from '../utils/api';
+import apiUrl from "../utils/api";
 
 const ServiceAPIManager = () => {
   const [services, setServices] = useState([]);
@@ -11,11 +11,10 @@ const ServiceAPIManager = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/fetch-all-services`);
+        const response = await axios.get(`${apiUrl}/api/service-api/fetch-all-services`);
         setServices(response.data);
       } catch (error) {
         console.error("Error fetching services:", error);
@@ -28,7 +27,7 @@ const ServiceAPIManager = () => {
 
   const fetchAPIList = async () => {
     try {
-      const response = await axios.get(`${apiUrl}/fetch-api-list`);
+      const response = await axios.get(`${apiUrl}/api/service-api/fetch-api-list`);
       setApiList(response.data);
     } catch (error) {
       console.error("Error fetching API list:", error);
@@ -45,7 +44,7 @@ const ServiceAPIManager = () => {
     setMessage("");
 
     try {
-      const response = await axios.post(`${apiUrl}/add-or-update`, {
+      const response = await axios.post(`${apiUrl}/api/service-api/add-or-update`, {
         serviceId: selectedService,
         apiKey,
       });
@@ -67,7 +66,7 @@ const ServiceAPIManager = () => {
     setMessage("");
 
     try {
-      const response = await axios.delete(`${apiUrl}/delete/${serviceId}`);
+      const response = await axios.delete(`${apiUrl}/api/service-api/delete/${serviceId}`);
       setMessage(response.data.message);
       fetchAPIList();
     } catch (error) {
@@ -84,74 +83,98 @@ const ServiceAPIManager = () => {
   };
 
   return (
-    <div className="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg w-full sm:w-4/5 md:w-3/4 lg:w-1/2 xl:w-1/3">
-      <h2 className="text-2xl font-bold mb-4 text-center">Service API Manager</h2>
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-xl mt-10">
+      <h2 className="text-3xl font-bold text-center mb-4 text-gray-800">
+        🔐 Manage API Keys
+      </h2>
 
-      {message && <p className="mb-4 text-center text-blue-600 text-sm">{message}</p>}
+      {message && (
+        <div className="text-sm text-blue-600 text-center mb-4">
+          {message}
+        </div>
+      )}
 
-      <label className="block mb-2 font-semibold">Select Service:</label>
-      <select
-        className="w-full p-2 border rounded mb-4"
-        value={selectedService}
-        onChange={(e) => setSelectedService(e.target.value)}
-      >
-        <option value="">-- Select a Service --</option>
-        {services.map((service) => (
-          <option key={service._id} value={service._id}>
-            {service.name}
-          </option>
-        ))}
-      </select>
+      <div className="space-y-4">
+        {/* Service Select */}
+        <div>
+          <label className="block text-gray-700 font-semibold mb-1">Service</label>
+          <select
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            value={selectedService}
+            onChange={(e) => setSelectedService(e.target.value)}
+          >
+            <option value="">-- Select a Service --</option>
+            {services.map((service) => (
+              <option key={service._id} value={service._id}>
+                {service.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <label className="block mb-2 font-semibold">API Key:</label>
-      <input
-        type="text"
-        className="w-full p-2 border rounded mb-4"
-        value={apiKey}
-        onChange={(e) => setApiKey(e.target.value)}
-        placeholder="Enter API Key"
-      />
+        {/* API Key Input */}
+        <div>
+          <label className="block text-gray-700 font-semibold mb-1">API Key</label>
+          <input
+            type="text"
+            placeholder="Enter API Key"
+            className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-orange-400"
+            value={apiKey}
+            onChange={(e) => setApiKey(e.target.value)}
+          />
+        </div>
 
-      <button
-        className={`w-full min-w-full text-white px-4 py-2 rounded transition duration-200 ${
-          editingId ? "bg-blue-600 hover:bg-blue-700" : "bg-green-600 hover:bg-green-700"
-        }`}
-        onClick={addOrUpdateAPIKey}
-        disabled={loading}
-      >
-        {loading ? "Saving..." : editingId ? "Update API Key" : "Save API Key"}
-      </button>
+        {/* Save/Update Button */}
+        <button
+          className={`w-full text-white py-2 rounded-md transition duration-200 ${
+            editingId
+              ? "bg-blue-600 hover:bg-blue-700"
+              : "bg-orange-600 hover:bg-orange-700"
+          }`}
+          onClick={addOrUpdateAPIKey}
+          disabled={loading}
+        >
+          {loading ? "Saving..." : editingId ? "Update API Key" : "Save API Key"}
+        </button>
+      </div>
 
-      <h3 className="text-lg font-bold mt-6">Stored APIs:</h3>
-      <ul className="mt-4">
+      {/* Stored APIs */}
+      <div className="mt-8">
+        <h3 className="text-lg font-bold mb-3 text-gray-800">Stored APIs</h3>
+
         {apiList.length === 0 ? (
-          <p className="text-sm text-gray-600 text-center">No APIs added yet.</p>
+          <p className="text-sm text-gray-500">No APIs added yet.</p>
         ) : (
-          apiList.map((api) => (
-            <li
-              key={api._id}
-              className="p-3 border rounded mt-2 flex flex-col sm:flex-row sm:justify-between items-start sm:items-center"
-            >
-              <span className="text-sm break-all">{api.service.name} - {api.apiKey}</span>
-              <div className="mt-2 sm:mt-0 flex gap-2">
-                <button
-                  className="text-blue-600 text-sm"
-                  onClick={() => editAPIKey(api.service._id, api.apiKey)}
-                >
-                  Edit
-                </button>
-                <button
-                  className="text-red-600 text-sm"
-                  onClick={() => deleteAPIKey(api.service._id)}
-                  disabled={loading}
-                >
-                  Delete
-                </button>
-              </div>
-            </li>
-          ))
+          <ul className="space-y-3">
+            {apiList.map((api) => (
+              <li
+                key={api._id}
+                className="border border-gray-200 rounded-lg p-3 flex flex-col md:flex-row md:justify-between md:items-center gap-2"
+              >
+                <span className="text-sm break-all">
+                  <span className="font-medium text-gray-700">{api.service.name}</span>:{" "}
+                  <span className="text-gray-600">{api.apiKey}</span>
+                </span>
+                <div className="flex gap-4 text-sm">
+                  <button
+                    onClick={() => editAPIKey(api.service._id, api.apiKey)}
+                    className="text-blue-600 hover:underline"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => deleteAPIKey(api.service._id)}
+                    disabled={loading}
+                    className="text-red-600 hover:underline"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
         )}
-      </ul>
+      </div>
     </div>
   );
 };
