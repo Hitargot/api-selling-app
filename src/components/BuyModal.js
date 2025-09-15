@@ -338,7 +338,7 @@ const BuyModal = ({ service, onClose }) => {
                 marginBottom: 24,
               }}
             >
-              Selected Plan: {selectedPackage?.name} - ${selectedPackage?.price}/month
+              Selected Plan: {selectedPackage?.name} - ${selectedPackage?.price}
             </p>
 
             <form
